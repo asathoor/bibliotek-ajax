@@ -35,8 +35,9 @@ $(document).ready(function() {
         permalink = permalink.replace(/\s/g, ''); // fjerner mellemrum m. regexp
         //console.log('perm: ' + permalink);
 
-        // tilføjer (append) html til #indhold
-        $('#indhold').append('<div class="bog"><h3>' + titel + '</h3>' +
+        // tilføjer (append) html med data fra xml til #indhold
+        $('#indhold').append('<div class="bog">' +
+          '<h3>' + titel + '</h3>' +
           '<img class="enForside" src="' + billede + '" alt="billede af bogen" width="100px">' +
           '<p>' + beskrivelse + '</p>' +
           '<p><a href="' + permalink + '">Mere om denne bog.</a></p>' +
