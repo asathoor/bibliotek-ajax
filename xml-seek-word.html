@@ -11,41 +11,72 @@
   <style>
     body {
       font-family: sans-serif;
-      text-align: left;
-      background-color: rgba(299,134,29, 0.7);
-
+      background-color: rgba(299,134,29,.77);
+      border: 0px;
+      padding: 0px;
     }
-    article, .bog {
-      max-width: 400px;
+    .bog {
+      position: relative;
+      top: 150px;
+      float:left;
+      width: 200px;
+      height: 535px;
       border: 2px solid #000;
       padding: 2em;
-      margin-top: 2em;
+      margin-top: 3em;
+      margin-right: 1em;
       background-color: rgba(226,134,29, 0.5);
       font-size: small;
       border-radius: 13px;
+      overflow: hidden;
+      color: #000;
+    }
+    #seeker {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      text-align: center;
+      background-color: rgba(226,134,29, 0.5);
+      font-size: small;
+      color: #fff;
+      background-color: #000;
+      display: block;
+      width: 100%;
     }
     img.center {
       display: block;
       margin: 0 auto;
-      width: 150px;
+
+      max-width: 100%;
       height: auto;
       border: 1px solid #000;
+
+      -webkit-filter: grayscale; /*sepia, hue-rotate, invert....*/
+      -webkit-filter: brightness(85%);
     }
-  </style>
+    h1 a {
+      color: #fff;
+      text-decoration: none;
+    }
+    </style>
 </head>
 
 <body>
 
-<article>
+  <aside id="seeker">
+    <h1><a href="xml-seek-word.html"><i class="fas fa-book-reader"></i> Biblioteket på EAAA</a></h1>
 
-  <h1><i class="fas fa-book-reader"></i> Biblioteket på EAAA</h1>
+    <!-- form -->
+    <input id="myTextBox" type="text">
+    <input id="submit" type="submit" value="Søg">
+  </aside>
 
-  <label for="myTextBox">Skriv dine søgeord herunder</label><br>
-  <input id="myTextBox" type="text">
-  <input id="submit" type="submit" value="Submit">
+  <!-- søgeresultater -->
   <div id="indhold"></div>
 
-</article>
+
 
 <!-- viser uri -->
 <div id="test"></div>
@@ -114,7 +145,7 @@
                 // visBillede( billede ) + // skriver kun billedtag, hvis der er et billede
                 '<p>' + beskrivelse + '</p>' +
                 '<p>Published: ' + pubdate.substring(0,16) + '</p>' +
-                '<p><a href="' + permalink + '" target="_blank">'+ visBillede( billede ) + '<br><i class="fas fa-location-arrow"></i> mere / bestil</a>' +
+                '<p><a href="' + permalink + '" target="_blank">'+ visBillede( billede ) + '<br><i class="fas fa-location-arrow"></i> Bestil </a>' +
                 '</div>'
               );
             })
