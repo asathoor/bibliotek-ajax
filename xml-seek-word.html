@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <title>Bib: søgeord</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    .bog {
+      max-width: 400px;
+      border: 2px solid #000;
+      padding: 2em;
+      margin-top: 2em;
+    }
+    img.center {
+      display: block;
+      margin: 0 auto;
+      width: 150px;
+      height: auto;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Biblioteket på EAAA</h1>
+
+  <label>Søg efter et ord i titel eller beskrivelsen:</label><br>
+  <input id="myTextBox" type="text" name="fname">
+  <input id="submit" type="submit" value="Submit">
+  <div id="test"></div>
+  <div id="indhold"></div>
+
+  <script>
+    $(document).ready(function() {
+
+      // get user input
+      $("#myTextBox").on("change paste keyup", function() {
+        //alert($(this).val());
+
+        wrd = 'https://eaaa.reindex.net/EAAA/main/Api.php?Focus=rsshitlist&qe='
+        wrd += encodeURIComponent($(this).val())
+        wrd += '&pagesize=500&page=1&format=rss';
+
+        let link = $('#test');
+        link.html('<a href="' + wrd + '">' + wrd + '</a>');
+
+        $('#test').show();
+
+      });
+
+      // format the searchstring
+      $('#submit').click(function() {
+
+        // "renser" #indhold ...
+        $('#indhold').html('');
+        $('#test').hide();
+
+        // henter data via AJAX
+        $.ajax({
+          type: "GET",
+          url: wrd,
+          cache: false,
+          dataType: "xml",
+          success: function(xml) {
+
+            console.log(xml); // viser XML-strukturen i console-inspect-tool.
+
+            $(xml).find('item').each(function() {
+
+              // find indhold
+              let titel = $(this).find('title').text();
+              let beskrivelse = $(this).find('description').text();
+              let billede = $(this).find('enclosure').attr("url"); // src til billedet
+              let permalink = $(this).find('link').text();
+
+              // skal billedet vises?
+              function visBillede(img){
+                if (img !== undefined){
+                  return '<img class="center" src="' + img + '" alt="billede af bogen">';
+                }
+                if (img == undefined){
+                  return '<!-- no image given -->';
+                }
+              }
+
+              // tilføjer (append) html med data fra xml til #indhold
+              $('#indhold').append('<div class="bog">' +
+                '<h3>' + titel + '</h3>' + //'<img class="enForside" src="' + billede + '" alt="billede af bogen" width="100px">' +
+                visBillede( billede ) + // skriver kun billedtag, hvis der er et billede
+                '<p>' + beskrivelse + '</p>' +
+                '<p><a href="' + permalink + '"> Mere om denne bog ...</a>' +
+                '</div>'
+              );
+            })
+          }
+        }); // ajax slut
+      }); // #submit klik slut
+    }); // document ready slut
+  </script>
+</body>
+</html>
