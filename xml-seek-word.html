@@ -6,16 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <title>Bib: søgeord</title>
   <style>
     body {
       font-family: sans-serif;
+      text-align: center;
+      background-color: rgba(226,134,29, 0.3);
     }
-    .bog {
+    article, .bog {
       max-width: 400px;
       border: 2px solid #000;
       padding: 2em;
       margin-top: 2em;
+      background-color: rgba(226,134,29, 0.3);
+      text-align: center;
+      font-size: small;
+      border-radius: 13px;
+    }
+    p {
+      text-align: left;
     }
     img.center {
       display: block;
@@ -29,27 +39,34 @@
 
 <body>
 
-  <h1>Biblioteket på EAAA</h1>
+<article>
 
-  <label>Søg efter et ord i titel eller beskrivelsen:</label><br>
-  <input id="myTextBox" type="text" name="fname">
+  <h1><i class="fas fa-book-reader"></i> Biblioteket på EAAA</h1>
+
+  <label for="myTextBox">Skriv dine søgeord herunder</label><br>
+  <input id="myTextBox" type="text">
   <input id="submit" type="submit" value="Submit">
-  <div id="test"></div>
   <div id="indhold"></div>
+
+</article>
+
+<!-- viser uri -->
+<div id="test"></div>
 
   <script>
     $(document).ready(function() {
 
       // get user input
       $("#myTextBox").on("change paste keyup", function() {
-        //alert($(this).val());
 
+        // query:
         wrd = 'https://eaaa.reindex.net/EAAA/main/Api.php?Focus=rsshitlist&qe='
-        wrd += encodeURIComponent($(this).val())
+        wrd += encodeURIComponent($(this).val()) // uri encoder søgestrengen
         wrd += '&pagesize=500&page=1&format=rss';
 
-        let link = $('#test');
-        link.html('<a href="' + wrd + '">' + wrd + '</a>');
+        // nedenstående viser uri til APIen som link i browseren
+        //let link = $('#test');
+        //link.html('<a href="' + wrd + '">' + wrd + '</a>');
 
         $('#test').show();
 
@@ -60,7 +77,7 @@
 
         // "renser" #indhold ...
         $('#indhold').html('');
-        $('#test').hide();
+        //$('#test').hide();
 
         // henter data via AJAX
         $.ajax({
@@ -70,15 +87,18 @@
           dataType: "xml",
           success: function(xml) {
 
-            console.log(xml); // viser XML-strukturen i console-inspect-tool.
+            console.log(xml); // viser XML-strukturen i console-inspect-tool
+
 
             $(xml).find('item').each(function() {
 
               // find indhold
               let titel = $(this).find('title').text();
+              let forfatter = $(this).find('author').text();
               let beskrivelse = $(this).find('description').text();
               let billede = $(this).find('enclosure').attr("url"); // src til billedet
               let permalink = $(this).find('link').text();
+              let pubdate = $(this).find('pubDate').text();
 
               // skal billedet vises?
               function visBillede(img){
@@ -92,10 +112,12 @@
 
               // tilføjer (append) html med data fra xml til #indhold
               $('#indhold').append('<div class="bog">' +
-                '<h3>' + titel + '</h3>' + //'<img class="enForside" src="' + billede + '" alt="billede af bogen" width="100px">' +
-                visBillede( billede ) + // skriver kun billedtag, hvis der er et billede
+                '<h3><i class="fas fa-book"></i> ' + titel + '</h3>' + //'<img class="enForside" src="' + billede + '" alt="billede af bogen" width="100px">' +
+                '<h4><i class="fas fa-user-circle"></i> By: ' + forfatter + '</h4>' +
+                // visBillede( billede ) + // skriver kun billedtag, hvis der er et billede
                 '<p>' + beskrivelse + '</p>' +
-                '<p><a href="' + permalink + '"> Mere om denne bog ...</a>' +
+                '<p>Published: ' + pubdate.substring(0,16) + '</p>' +
+                '<p><a href="' + permalink + '" target="_blank">'+ visBillede( billede ) + '<br><i class="fas fa-location-arrow"></i> mere / bestil</a>' +
                 '</div>'
               );
             })
