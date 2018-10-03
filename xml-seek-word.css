@@ -1,0 +1,42 @@
+/**
+* file: xml-seek-word.css
+**/
+body {
+  background-color: rgba(232, 155, 55, 0.5);
+  font-family: sans-serif;
+}
+header {
+  padding-top: 1.2rem;
+  display: block;
+  height: 134px;
+  background-color: #000;
+  text-align: center;
+}
+header a {
+  text-decoration: none;
+  color: #fff;
+}
+a {
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+}
+
+/* grid */
+#indhold {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 1rem;
+  grid-row-gap: 2rem;
+  padding: 10px;
+}
+/* grid-item */
+.bog {
+background-color: rgba(255, 255, 255, 0.8);
+border: 1px solid rgba(0, 0, 0, 0.8);
+padding: 1rem;
+background-color: rgba(232, 155, 55, 0.5);
+}
+
+/* grid: responsive styles */
