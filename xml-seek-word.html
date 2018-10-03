@@ -48,11 +48,11 @@
     img.center {
       display: block;
       margin: 0 auto;
-
       max-width: 100%;
       height: auto;
       border: 1px solid #000;
 
+      /* tint */
       -webkit-filter: grayscale; /*sepia, hue-rotate, invert....*/
       -webkit-filter: brightness(85%);
     }
@@ -82,6 +82,9 @@
 <div id="test"></div>
 
   <script>
+    /**
+     * formål: henter data om bøger fra EAAA Bibliotekets API
+     **/
     $(document).ready(function() {
 
       // get user input
@@ -92,8 +95,7 @@
         wrd += encodeURIComponent($(this).val()) // uri encoder søgestrengen
         wrd += '&pagesize=500&page=1&format=rss';
 
-        // nedenstående viser uri til APIen som link i browseren
-        //let link = $('#test');
+        //let link = $('#test'); // viser uri til APIen som link i browseren
         //link.html('<a href="' + wrd + '">' + wrd + '</a>');
 
         $('#test').show();
@@ -115,12 +117,11 @@
           dataType: "xml",
           success: function(xml) {
 
-            console.log(xml); // viser XML-strukturen i console-inspect-tool
+            //console.log(xml); // viser XML-strukturen i console-inspect-tool
 
+            $(xml).find('item').each(function() { // ved hver <item> gøres følgende ...
 
-            $(xml).find('item').each(function() {
-
-              // find indhold
+              // vælger data med .find() og gemmer dem i variabler
               let titel = $(this).find('title').text();
               let forfatter = $(this).find('author').text();
               let beskrivelse = $(this).find('description').text();
@@ -128,25 +129,26 @@
               let permalink = $(this).find('link').text();
               let pubdate = $(this).find('pubDate').text();
 
-              // skal billedet vises?
+              // er der et billede? J/N?
               function visBillede(img){
-                if (img !== undefined){
+                if (img !== undefined){ // hvis img ikke er undefined
                   return '<img class="center" src="' + img + '" alt="billede af bogen">';
                 }
-                if (img == undefined){
-                  return '<!-- no image given -->';
+                if (img == undefined){ // hvis billede er undefined
+                  return '<!-- billede af forsiden mangler -->';
                 }
               }
 
-              // tilføjer (append) html med data fra xml til #indhold
-              $('#indhold').append('<div class="bog">' +
-                '<h3><i class="fas fa-book"></i> ' + titel + '</h3>' + //'<img class="enForside" src="' + billede + '" alt="billede af bogen" width="100px">' +
-                '<h4><i class="fas fa-user-circle"></i> By: ' + forfatter + '</h4>' +
+              // tilføjer (append) markup til #indhold
+              $('#indhold').append('<div class="bog">' + // .bog en bogkasse begynder
+                '<a href="' + permalink + '" target="_blank">'+ visBillede( billede ) + '</a>' + // billede (måske)
+                '<h3><i class="fas fa-book"></i> ' + titel + '</h3>' + // titel
+                '<h4><i class="fas fa-user-circle"></i> By: ' + forfatter + '</h4>' + // forfatter
                 // visBillede( billede ) + // skriver kun billedtag, hvis der er et billede
-                '<p>' + beskrivelse + '</p>' +
-                '<p>Published: ' + pubdate.substring(0,16) + '</p>' +
-                '<p><a href="' + permalink + '" target="_blank">'+ visBillede( billede ) + '<br><i class="fas fa-location-arrow"></i> Bestil </a>' +
-                '</div>'
+                '<p>' + beskrivelse + '</p>' + // beskrivelse
+                '<p>Published: ' + pubdate.substring(0,16) + '</p>' + // tryk: dato
+                '<a href="' + permalink + '" target="_blank">'+ '<i class="fas fa-location-arrow"></i> Bestil </a>' + // permalink
+                '</div>' // bogkasse slut
               );
             })
           }
