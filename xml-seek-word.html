@@ -7,84 +7,26 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" href="xml-seek-word.css">
   <title>Bib: søgeord</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: rgba(299,134,29,.77);
-      border: 0px;
-      padding: 0px;
-    }
-    .bog {
-      position: relative;
-      top: 150px;
-      float:left;
-      width: 200px;
-      height: 535px;
-      border: 2px solid #000;
-      padding: 2em;
-      margin-top: 3em;
-      margin-right: 1em;
-      background-color: rgba(226,134,29, 0.5);
-      font-size: small;
-      border-radius: 13px;
-      overflow: hidden;
-      color: #000;
-    }
-    #seeker {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-      text-align: center;
-      background-color: rgba(226,134,29, 0.5);
-      font-size: small;
-      color: #fff;
-      background-color: #000;
-      display: block;
-      width: 100%;
-    }
-    img.center {
-      display: block;
-      margin: 0 auto;
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #000;
-
-      /* tint */
-      -webkit-filter: grayscale; /*sepia, hue-rotate, invert....*/
-      -webkit-filter: brightness(85%);
-    }
-    h1 a {
-      color: #fff;
-      text-decoration: none;
-    }
-    footer {
-      color: #fff;
-      background: #000;
-    }
-    </style>
 </head>
 
 <body>
 
-  <aside id="seeker">
+  <header id="seeker">
     <h1><a href="xml-seek-word.html"><i class="fas fa-book-reader"></i> Biblioteket på EAAA</a></h1>
 
     <!-- form -->
     <input id="myTextBox" type="text">
     <input id="submit" type="submit" value="Søg">
-  </aside>
+  </header>
 
   <!-- søgeresultater -->
   <div id="indhold"></div>
 
-
-
   <!-- viser uri -->
   <div id="test"></div>
-  
+
   <script>
     /**
      * formål: henter data om bøger fra EAAA Bibliotekets API
