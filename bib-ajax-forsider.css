@@ -1,0 +1,13 @@
+/**
+ * file: bib-ajax-forsider.css
+ **/
+ body {
+   background-color: #000;
+ }
+ img.enForside {
+   position: relative;
+   width: auto;
+   max-height: 234px;
+   margin: 12px;
+   transform: rotate(12deg)
+ }

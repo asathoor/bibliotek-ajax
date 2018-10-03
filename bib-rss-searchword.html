@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ajax-xml</title>
+</head>
+
+<body>
+  <article>
+    <h2 id="overskrift">Bibliotekets API: søg på et ord</h2>
+    <div id="indhold"></div>
+  </article>
+
+  <!-- scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>
+  /**
+   * file: ajax-xml.js
+   * purpose: get and parse XML to HTML from extern API via Jquery
+   **/
+
+  $(document).ready(function() {
+
+    /**
+     * purpose:
+     **/
+
+    // søg på Duckett
+    let ordet = 'JavaScript';
+    let bibUrl = 'https://eaaa.reindex.net/EAAA/main/Api.php?Focus=rsshitlist&qe=' +
+    ordet +
+    '&pagesize=100&page=1&format=rss';
+
+    // Overskrift i h2 #overskrift
+    $('#overskrift').html('Biblioteket anbefaler disse bøger om ' + ordet);
+
+    // GET AJAX the Jquery way
+    $.ajax({
+      type: "GET",
+      url: bibUrl,
+      cache: false,
+      dataType: "xml",
+      success: function(xml) {
+
+        console.log(xml); // viser XML-strukturen i console-inspect-tool.
+
+        $(xml).find('item').each(function() {
+
+          // titel
+          let titel = $(this).find('title').text();
+          let beskrivelse = $(this).find('description').text();
+          let billede = $(this).find('enclosure').attr("url"); // src til billedet
+          //let permalink = $(this).find('guid').text(); // returnerer streng med mellemrum
+          //permalink = permalink.replace(/\s/g, ''); // fjerner mellemrum m. regexp
+          let linket = $(this).find('link').text();
+
+          // tilføjer (append) html med data fra xml til #indhold
+          $('#indhold').append('<div class="bog">' +
+            '<h3>' + titel + '</h3>' +
+            '<img class="enForside" src="' + billede + '" alt="billede af bogen" width="150px">' +
+            '<p>' + beskrivelse + '</p>' +
+            '<a href="' + linket + '">Læs here her</a>' +
+            '</div>'
+          );
+        })
+      }
+    }); // ajax slut
+
+  }); // document ready function slut
+
+  </script>
+
+</body>
+
+</html>
