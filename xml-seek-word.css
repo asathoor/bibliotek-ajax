@@ -1,42 +1,54 @@
 /**
 * file: xml-seek-word.css
 **/
+
+/* responsivt grid */
+
+.indhold {
+  /* @url: https://responsivedesign.is/patterns/css-grid-responsive-layout/ */
+  display: grid;
+  /* Display as a Grid */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* repeat = as many times as you can fit */
+  /* auto-fit = fit as many items on the line as possible, go bigger if you need to */
+  /*minmax = (min size, max size) = the minimum size the column should be is 200px, but if there's space then give them all 1fr of that width. */
+  grid-gap: .5rem;
+  grid-row-gap: .5rem;
+}
+
+.bog {
+  padding: 10px;
+  background-color: rgba(232, 155, 55, 0.5);
+}
+
+/* layout */
+
 body {
   background-color: rgba(232, 155, 55, 0.5);
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }
+
 header {
-  padding-top: 1.2rem;
   display: block;
-  height: 134px;
+  width: 100%;
+  height: 157px;
   background-color: #000;
   text-align: center;
+  padding-top: 1rem;
+  margin-bottom: .5rem;
 }
+
 header a {
   text-decoration: none;
   color: #fff;
 }
+
 a {
   text-decoration: none;
 }
+
 img {
   max-width: 100%;
 }
-
-/* grid */
-#indhold {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-gap: 1rem;
-  grid-row-gap: 2rem;
-  padding: 10px;
-}
-/* grid-item */
-.bog {
-background-color: rgba(255, 255, 255, 0.8);
-border: 1px solid rgba(0, 0, 0, 0.8);
-padding: 1rem;
-background-color: rgba(232, 155, 55, 0.5);
-}
-
-/* grid: responsive styles */
