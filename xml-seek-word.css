@@ -18,22 +18,23 @@
 
 .bog {
   padding: 10px;
-  background-color: rgba(232, 155, 55, 0.5);
+  background-color: rgba(255,159,15,.90);
 }
 
 /* layout */
-
 body {
-  background-color: rgba(232, 155, 55, 0.5);
   font-family: sans-serif;
   margin: 0;
   padding: 0;
+  background: url(images/natViby2_web.jpg);
+  background-size: cover;
+  /*background-color: #000;*/
 }
 
 header {
   display: block;
   width: 100%;
-  background-color: #000;
+  background-color: rgba(0,0,0,.10);
   text-align: center;
   padding-top: 1rem;
   padding-bottom: 2rem;
@@ -54,5 +55,5 @@ img {
 }
 
 p {
-  max-width: 33rem;
+  max-width: 23rem;
 }
