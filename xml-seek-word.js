@@ -3,7 +3,8 @@
  * formål: henter data om bøger fra EAAA Bibliotekets API
 
  Denne let reviderede version viser
- en række forsider ved et AJ
+ en række roterede forsider fra nye bøger
+ på biblioteket.
 
  **/
 $(document).ready(function() {
